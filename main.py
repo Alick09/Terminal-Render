@@ -17,9 +17,9 @@ from terminal_render.material import SevenColorsMaterial
 
 def initialize_scene():
     s = Scene()
-    camera = Camera(Point(-2.5,0,1), Point(0,0,0), 30)
+    camera = Camera(Point(-3.5,0,1), Point(0,0,0), 30)
     light = Light(Point(-1, 1, 1))
-    outer_box = Box(Point(-0.5,0,0), 5, 5, 5)
+    outer_box = Box(Point(-2.5,0,2), 10, 3, 5)
     inner_box = Box(Point(0,0,0), 1, 1, 1)
     inner_box.rotate(30, Point(0,0,1))
     outer_box.set_material(SevenColorsMaterial(1))

@@ -44,12 +44,26 @@ class Line(object):
 
 class TerminalSymbolsCollection(object):
     def __init__(self):
-        self.symbols = u'\xb7#\u2592\u2593\u2588';
+        """ 
+            symbols: (brightness, ord) 
+            For consolas typeface and cp866 encoding (Windows PowerShell)
+        """
+        self.symbols = [
+            (38, 250), (51, 43), (66, 174), (71, 88),
+            (80, 35), (96, 64), (182, 178), (220, 219)
+        ]
         self.size = len(self.symbols)
 
+    def get_index(self, darkness):
+        x = darkness * 255
+        res = 0
+        while res < self.size and self.symbols[res][0] < x:
+            res += 1
+        return max(res - 1, 0)
+
     def get_symbol(self, darkness):
-        index = min(int(darkness * self.size), self.size-1)
-        return self.symbols[index].encode(sys.stdout.encoding)
+        index = self.get_index(darkness)
+        return chr(self.symbols[index][1])
 
 
 class ConsoleRenderer(Renderer):
