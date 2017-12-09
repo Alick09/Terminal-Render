@@ -7,12 +7,12 @@ Created 08.12.17 by Abdulla Gaibullaev.
 Site: http://ag-one.ru
 """
 
-from ag_render.renderer import ConsoleRenderer
-from ag_render.scene import Scene
-from ag_render.camera import Camera
-from ag_render.geometry import Point
-from ag_render.objects import Light, Box
-from ag_render.material import SevenColorsMaterial
+from terminal_render.renderer import ConsoleRenderer
+from terminal_render.scene import Scene
+from terminal_render.camera import Camera
+from terminal_render.geometry import Point
+from terminal_render.objects import Light, Box
+from terminal_render.material import SevenColorsMaterial
 
 
 def initialize_scene():
