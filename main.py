@@ -2,7 +2,7 @@
 # -*- coding: utf-8 -*-
 
 """
-<Project description>
+Terminal render use example.
 Created 08.12.17 by Abdulla Gaibullaev.
 Site: http://ag-one.ru
 """
@@ -13,6 +13,7 @@ from terminal_render.camera import Camera
 from terminal_render.geometry import Point
 from terminal_render.objects import Light, Box
 from terminal_render.material import SevenColorsMaterial
+import json
 
 
 def initialize_scene():
@@ -29,12 +30,11 @@ def initialize_scene():
 
 
 def main():
+    options = json.load(open('options.json'))
     scene = initialize_scene()
-    r = ConsoleRenderer()
+    r = ConsoleRenderer(options)
     r.render(scene)
 
 
 if __name__ == "__main__":
     main()
-    # c = '\xfa\xb1\xb2\xdb'
-    # print c, [c.decode('cp866')]

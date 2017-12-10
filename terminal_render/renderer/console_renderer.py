@@ -2,7 +2,7 @@
 # -*- coding: utf-8 -*-
 
 """
-<Project description>
+Console render implementation.
 Created 08.12.2017 by Abdulla Gaibullaev.
 Site: http://ag-one.ru
 """
@@ -47,6 +47,7 @@ class TerminalSymbolsCollection(object):
         """ 
             symbols: (brightness, ord) 
             For consolas typeface and cp866 encoding (Windows PowerShell)
+            TODO: Implement other typefaces and encodings
         """
         self.symbols = [
             (38, 250), (51, 43), (66, 174), (71, 88),
@@ -67,7 +68,8 @@ class TerminalSymbolsCollection(object):
 
 
 class ConsoleRenderer(Renderer):
-    def __init__(self):
+    def __init__(self, options):
+        self.options = options
         self.term_symbols = TerminalSymbolsCollection()
         locale.setlocale(locale.LC_ALL, '')
         self.screen = curses.initscr()
@@ -78,7 +80,7 @@ class ConsoleRenderer(Renderer):
         self.height, self.width = self.screen.getmaxyx()
 
     def render(self, scene, camera_index = -1):
-        self.rc = RayCaster(scene, self.width, self.height, fix_coeff=1.9, antialiasing_level=1)
+        self.rc = RayCaster(scene, self.width, self.height, self.options)
         Renderer.render(self, scene, camera_index)
 
     def initialize_colors(self):
@@ -113,6 +115,7 @@ class ConsoleRenderer(Renderer):
         hmax = self.height * step * fix_coeff
 
         for y in xrange(self.height-1):
+            self.screen.refresh()
             for x in xrange(self.width):
                 cells = [(r, self.scene.intersect(r)) for r in self.rc.get_pixel_rays(x, y)]
                 symb, cc = self.get_cell(cells)

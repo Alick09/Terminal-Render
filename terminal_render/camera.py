@@ -1,7 +1,16 @@
-from geometry import Ray
+#!/usr/bin/python
+# -*- coding: utf-8 -*-
+
+"""
+Camera.
+Created 08.10.17 by Abdulla Gaibullaev.
+Site: http://ag-one.ru
+"""
+
+
+from geometry import Ray, Point
 import numpy as np
 
-from geometry import Point
 
 
 class Camera(object):

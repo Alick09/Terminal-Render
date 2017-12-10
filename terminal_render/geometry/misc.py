@@ -2,7 +2,7 @@
 # -*- coding: utf-8 -*-
 
 """
-<Project description>
+Other geometries
 Created 08.12.17 by Abdulla Gaibullaev.
 Site: http://ag-one.ru
 """

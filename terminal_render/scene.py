@@ -1,3 +1,12 @@
+#!/usr/bin/python
+# -*- coding: utf-8 -*-
+
+"""
+Scene
+Created 08.12.17 by Abdulla Gaibullaev.
+Site: http://ag-one.ru
+"""
+
 from camera import Camera
 from objects import Light, Object
 import logging

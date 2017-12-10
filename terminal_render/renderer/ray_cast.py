@@ -9,20 +9,23 @@ Site: http://ag-one.ru
 
 
 import numpy as np
-from ..geometry import Ray
+from ..geometry import Ray, Point
 
 
 class RayCaster(object):
-    def __init__(self, scene, width, height, fix_coeff=1.0, antialiasing_level = 2):
+    def __init__(self, scene, width, height, options):
         """ 
             width and height - pixel size of output image 
             fix_coeff - pixel_height/pixel_width ratio
         """
+        self.options = options
         self.scene = scene
-        self.antialiasing_level = antialiasing_level
         self.width = width
         self.height = height
-        self.fix_coeff = fix_coeff
+        self.antialiasing_level = options.get('antialiasing_level', 1)
+        self.fix_coeff = options.get('fix_coeff', 1.0)
+        self.use_ssao = options.get('use_ssao', False)
+        self.ssao_mc_tests = options.get('ssao_mc_tests', 10)
         self.initialize_grid()
 
     def initialize_grid(self):
@@ -39,18 +42,34 @@ class RayCaster(object):
                     self.ys[y*self.antialiasing_level+dy]
                 )
 
-    def cast_light(self, point, normal, light):
+    def cast_ssao(self, point, normal, move=1e-6):
+        """ monte-carlo method """
+        start_point = point + normal * move
+        success = 1.0
+        for i in xrange(self.ssao_mc_tests):
+            ray = Ray(start_point, Point.semispherical_random(normal))
+            intersection = self.scene.intersect(ray)
+            distance = (intersection[0] - point).length()
+            success += min(distance**2, 1.)
+        return success / self.ssao_mc_tests
+
+    def cast_light(self, point, normal, light, shadow_coff=0.4):
+        """ returns illumination of the point by the given light """
         ray = Ray(point, light.position - point)
         max_length = (light.position - point).length()
         first_point = self.scene.intersect(ray)
+        force = light.force
+
         if first_point is not None and (first_point[0] - point).length() < max_length:
-            return 0
-        else:
-            cos_a = ray.direction.dot(normal)
-            return max(0, cos_a) * light.force
+            force *= shadow_coff
+
+        cos_a = ray.direction.dot(normal)
+        return max(0, cos_a) * force
 
 
     def cast_lights(self, point, normal):
         """ Returns light coefficient """
         result = sum([self.cast_light(point, normal, light) for light in self.scene.lights])
+        if self.use_ssao:
+            result *= self.cast_ssao(point, normal)
         return result / self.scene.get_light_force()

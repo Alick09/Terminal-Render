@@ -1,0 +1,6 @@
+{
+    "fix_coeff": 1.9,
+    "antialiasing_level": 1,
+    "use_ssao": true,
+    "ssao_mc_tests": 32
+}

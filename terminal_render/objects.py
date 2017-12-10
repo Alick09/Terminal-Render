@@ -2,7 +2,7 @@
 # -*- coding: utf-8 -*-
 
 """
-<Project description>
+Objects for scene
 Created 08.12.17 by Abdulla Gaibullaev.
 Site: http://ag-one.ru
 """
@@ -16,6 +16,10 @@ class Light(object):
 
 
 class Object(object):
+    """ 
+        Abstract object. 
+        Other objects must be derived from this 
+    """
     def __init__(self):
         pass
 
@@ -32,6 +36,7 @@ class Object(object):
 
 
 class Box(Object):
+    """ Simple box """
     def __init__(self, center, width, height, depth):
         self.material = None
         self.center = center
