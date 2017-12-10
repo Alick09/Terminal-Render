@@ -1,7 +1,7 @@
 # Terminal-Render
 Render in terminal (rendered in 15 seconds)
 
-![work-example](https://raw.githubusercontent.com/Alick09/Terminal-Render/master/misc/example2.png "work example")
+![work-example](https://raw.githubusercontent.com/Alick09/Terminal-Render/master/misc/example3.png "work example")
 
 
 # Options
